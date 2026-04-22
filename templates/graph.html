@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ambition Box — Visualization</title>
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f0f4ff 0%, #fdf0ff 50%, #f0fff8 100%);
+      color: #1a1a2e;
+      padding: 36px 20px 60px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .blob { position:fixed; border-radius:50%; filter:blur(90px); pointer-events:none; opacity:0.35; animation:blobFloat var(--dur,10s) ease-in-out infinite alternate; z-index:0; }
+    .blob-1 { width:500px;height:500px;background:#c8b6ff;top:-150px;left:-120px;--dur:10s; }
+    .blob-2 { width:400px;height:400px;background:#b5ead7;top:30%;right:-100px;--dur:13s;animation-direction:alternate-reverse; }
+    .blob-3 { width:350px;height:350px;background:#ffc8dd;bottom:-80px;left:20%;--dur:11s; }
+    @keyframes blobFloat { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(25px,20px) scale(1.06)} }
+
+    .page-wrap { position:relative; z-index:1; max-width:980px; margin:0 auto; }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 9px 20px;
+      border-radius: 30px;
+      border: 2px solid rgba(114,9,183,0.3);
+      color: #7209b7;
+      background: rgba(114,9,183,0.07);
+      margin-bottom: 30px;
+      transition: all 0.2s;
+    }
+    .back-btn:hover { background: rgba(114,9,183,0.14); box-shadow: 0 0 18px rgba(114,9,183,0.2); }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 34px;
+      animation: fadeDown 0.6s ease both;
+    }
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-14px)} to{opacity:1;transform:translateY(0)} }
+
+    .page-title {
+      font-family: 'Righteous', cursive;
+      font-size: 2rem;
+      background: linear-gradient(90deg, #f72585, #7209b7, #3a86ff, #06d6a0);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradShift 4s ease infinite;
+    }
+    @keyframes gradShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 7px 18px;
+      border-radius: 30px;
+      background: linear-gradient(90deg, #f72585, #7209b7, #3a86ff);
+      background-size: 200%;
+      animation: gradShift 3s ease infinite;
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(114,9,183,0.25);
+    }
+
+    .charts-grid { display: grid; grid-template-columns: 1fr; gap: 28px; }
+
+    .chart-card {
+      border-radius: 22px;
+      padding: 3px;
+      background-size: 300% 300%;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+    }
+    .chart-card:nth-child(1) { background: linear-gradient(135deg, #3a86ff, #4cc9f0, #06d6a0); animation: gradShift 5s 0s ease infinite, slideUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.05s both; }
+    .chart-card:nth-child(2) { background: linear-gradient(135deg, #f72585, #ffd166, #f4a261); animation: gradShift 5s 0.5s ease infinite, slideUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.18s both; }
+    .chart-card:nth-child(3) { background: linear-gradient(135deg, #7209b7, #f72585, #4cc9f0); animation: gradShift 5s 1s ease infinite, slideUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.3s both; }
+    @keyframes slideUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+
+    .chart-inner { background: #fff; border-radius: 20px; overflow: hidden; }
+
+    .chart-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 22px 13px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .chart-icon { font-size: 1.6rem; }
+    .chart-title { font-family: 'Righteous', cursive; font-size: 1rem; letter-spacing: 0.5px; }
+    .chart-subtitle { font-size: 0.7rem; color: #999; margin-top: 3px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; }
+
+    .chart-card:nth-child(1) .chart-title { color: #3a86ff; }
+    .chart-card:nth-child(2) .chart-title { color: #f72585; }
+    .chart-card:nth-child(3) .chart-title { color: #7209b7; }
+
+    .chart-body {
+      padding: 22px;
+      background: #fafafa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .chart-body img {
+      max-width: 100%;
+      border-radius: 10px;
+      display: block;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+    }
+    .chart-body img:hover { transform: scale(1.015); }
+  </style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<div class="page-wrap">
+
+  <a href="/" class="back-btn">← Back to Search</a>
+
+  <div class="page-header">
+    <div class="page-title">📊 Data Insights</div>
+    <div class="badge">✦ Ambition Box</div>
+  </div>
+
+  <div class="charts-grid">
+
+    <div class="chart-card">
+      <div class="chart-inner">
+        <div class="chart-header">
+          <div class="chart-icon">📊</div>
+          <div>
+            <div class="chart-title">Histplot — Rating Distribution</div>
+            <div class="chart-subtitle">How many companies fall in each rating range</div>
+          </div>
+        </div>
+        <div class="chart-body">
+          <img src="{{ url_for('static', filename='graph1.png') }}" alt="Histplot"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-inner">
+        <div class="chart-header">
+          <div class="chart-icon">✨</div>
+          <div>
+            <div class="chart-title">Scatterplot — Reviews VS Jobs Analysis</div>
+            
+          </div>
+        </div>
+        <div class="chart-body">
+          <img src="{{ url_for('static', filename='graph2.png') }}" alt="Scatterplot"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-inner">
+        <div class="chart-header">
+          <div class="chart-icon">🥧</div>
+          <div>
+            <div class="chart-title">Pieplot — Rating Bucket Breakdown</div>
+            <div class="chart-subtitle">Share of companies in each rating bucket</div>
+          </div>
+        </div>
+        <div class="chart-body">
+          <img src="{{ url_for('static', filename='graph3.png') }}" alt="Pieplot"/>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

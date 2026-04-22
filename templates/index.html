@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ambition Box</title>
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f0f4ff 0%, #fdf0ff 50%, #f0fff8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .blob { position:fixed; border-radius:50%; filter:blur(90px); pointer-events:none; opacity:0.45; animation:blobFloat var(--dur,10s) ease-in-out infinite alternate; z-index:0; }
+    .blob-1 { width:480px;height:480px;background:#c8b6ff;top:-150px;left:-120px;--dur:10s; }
+    .blob-2 { width:380px;height:380px;background:#ffc8dd;top:15%;right:-100px;--dur:13s;animation-direction:alternate-reverse; }
+    .blob-3 { width:340px;height:340px;background:#b5ead7;bottom:-100px;left:15%;--dur:11s; }
+    .blob-4 { width:260px;height:260px;background:#ffd6a5;bottom:10%;right:8%;--dur:9s;animation-direction:alternate-reverse; }
+    @keyframes blobFloat { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(28px,22px) scale(1.07)} }
+
+    .card {
+      position: relative;
+      z-index: 10;
+      width: 440px;
+      border-radius: 28px;
+      padding: 4px;
+      background: linear-gradient(135deg, #f72585, #7209b7, #3a86ff, #4cc9f0, #06d6a0);
+      background-size: 300% 300%;
+      animation: gradShift 5s ease infinite, popIn 0.7s cubic-bezier(0.22,1,0.36,1) both;
+      box-shadow: 0 12px 50px rgba(114,9,183,0.18), 0 4px 20px rgba(58,134,255,0.15);
+    }
+    @keyframes gradShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    @keyframes popIn { from{opacity:0;transform:scale(0.87) translateY(36px)} to{opacity:1;transform:scale(1) translateY(0)} }
+
+    .card-inner {
+      background: #ffffff;
+      border-radius: 25px;
+      padding: 40px 36px 44px;
+    }
+
+    .title-wrap { text-align: center; margin-bottom: 32px; }
+    h1 {
+      font-family: 'Righteous', cursive;
+      font-size: 2.5rem;
+      line-height: 1;
+      background: linear-gradient(90deg, #f72585, #7209b7, #3a86ff, #06d6a0);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradShift 4s ease infinite;
+      filter: drop-shadow(0 2px 8px rgba(114,9,183,0.12));
+    }
+    .subtitle {
+      margin-top: 9px;
+      font-size: 0.82rem;
+      color: #aaa;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .field { margin-bottom: 16px; }
+    label.field-label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+    .field-loc   label { color: #f72585; }
+    .field-field label { color: #3a86ff; }
+    .field-rat   label { color: #06d6a0; }
+
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: "▾";
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      pointer-events: none;
+    }
+    .field-loc   .select-wrap::after { color: #f72585; }
+    .field-field .select-wrap::after { color: #3a86ff; }
+    .field-rat   .select-wrap::after { color: #06d6a0; }
+
+    select {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 2px solid #ebebeb;
+      background: #f8f9ff;
+      color: #1a1a2e;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      transition: border-color 0.25s, box-shadow 0.25s, background 0.2s;
+    }
+    select:hover { background: #f0f4ff; }
+    .field-loc   select:focus { border-color: #f72585; box-shadow: 0 0 0 4px rgba(247,37,133,0.1); }
+    .field-field select:focus { border-color: #3a86ff; box-shadow: 0 0 0 4px rgba(58,134,255,0.1); }
+    .field-rat   select:focus { border-color: #06d6a0; box-shadow: 0 0 0 4px rgba(6,214,160,0.1); }
+    select option { background: #fff; color: #1a1a2e; }
+
+    .divider {
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #f72585, #7209b7, #3a86ff, #4cc9f0, #06d6a0, #ffd166);
+      background-size: 200%;
+      animation: gradShift 3s ease infinite;
+      margin: 22px 0;
+    }
+
+    .view-label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #7209b7;
+      margin-bottom: 10px;
+    }
+    .radio-group { display: flex; gap: 12px; margin-bottom: 26px; }
+    .radio-option { flex: 1; position: relative; }
+    .radio-option input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+    .radio-option label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      border-radius: 14px;
+      border: 2px solid #ebebeb;
+      background: #f8f9ff;
+      color: #bbb;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.22s;
+    }
+    .radio-option label:hover { border-color: #ccc; color: #555; background: #f0f0ff; }
+    .radio-option:first-child input:checked + label {
+      border-color: #f4a261;
+      background: rgba(244,162,97,0.1);
+      color: #e07b30;
+      box-shadow: 0 0 14px rgba(244,162,97,0.25);
+    }
+    .radio-option:last-child input:checked + label {
+      border-color: #3a86ff;
+      background: rgba(58,134,255,0.08);
+      color: #3a86ff;
+      box-shadow: 0 0 14px rgba(58,134,255,0.2);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(90deg, #f72585, #7209b7, #3a86ff, #4cc9f0);
+      background-size: 200%;
+      animation: gradShift 3s ease infinite;
+      color: #fff;
+      font-family: 'Righteous', cursive;
+      font-size: 1.05rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 6px 24px rgba(114,9,183,0.3), 0 3px 12px rgba(247,37,133,0.2);
+    }
+    .btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 36px rgba(114,9,183,0.4), 0 6px 20px rgba(247,37,133,0.3);
+    }
+    .btn:active { transform: translateY(0) scale(0.99); }
+    .btn::after {
+      content: "";
+      position: absolute;
+      top: -50%; left: -60%;
+      width: 40%; height: 200%;
+      background: rgba(255,255,255,0.25);
+      transform: skewX(-20deg);
+      animation: shimmer 2.5s ease-in-out infinite;
+    }
+    @keyframes shimmer { 0%{left:-60%} 100%{left:130%} }
+  </style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+<div class="blob blob-4"></div>
+
+<div class="card">
+  <div class="card-inner">
+
+    <div class="title-wrap">
+      <h1>Ambition Box</h1>
+      <p class="subtitle">Filter companies by location, field &amp; rating</p>
+    </div>
+
+    <form action="/sub" method="post">
+
+      <div class="field field-loc">
+        <label class="field-label">Location</label>
+        <div class="select-wrap">
+          <select name="Location">
+            {% for l in loc %}
+              <option value="{{ l }}">{{ l }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="field field-field">
+        <label class="field-label">Field</label>
+        <div class="select-wrap">
+          <select name="Field">
+            {% for f in field %}
+              <option value="{{ f }}">{{ f }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="field field-rat">
+        <label class="field-label">Rating</label>
+        <div class="select-wrap">
+          <select name="Rating">
+            {% for r in rating %}
+              <option value="{{ r }}">{{ r }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <span class="view-label">View As</span>
+      <div class="radio-group">
+        <div class="radio-option">
+          <input type="radio" name="view" value="table" id="r-table">
+          <label for="r-table">Table</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" name="view" value="visual" id="r-visual">
+          <label for="r-visual">Visual</label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Explore Results</button>
+
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

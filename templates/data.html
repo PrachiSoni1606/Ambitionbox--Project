@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ambition Box — Results</title>
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f0f4ff 0%, #fdf0ff 50%, #f0fff8 100%);
+      color: #1a1a2e;
+      padding: 36px 20px 60px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .blob { position:fixed; border-radius:50%; filter:blur(90px); pointer-events:none; opacity:0.45; animation:blobFloat var(--dur,10s) ease-in-out infinite alternate; z-index:0; }
+    .blob-1 { width:480px;height:480px;background:#c8b6ff;top:-150px;left:-120px;--dur:10s; }
+    .blob-2 { width:380px;height:380px;background:#ffc8dd;top:15%;right:-100px;--dur:13s;animation-direction:alternate-reverse; }
+    .blob-3 { width:340px;height:340px;background:#b5ead7;bottom:-100px;left:15%;--dur:11s; }
+    .blob-4 { width:260px;height:260px;background:#ffd6a5;bottom:10%;right:8%;--dur:9s;animation-direction:alternate-reverse; }
+    @keyframes blobFloat { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(28px,22px) scale(1.07)} }
+
+    .page-wrap { position:relative; z-index:1; max-width:1100px; margin:0 auto; }
+
+    /* Back button */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 9px 20px;
+      border-radius: 30px;
+      border: 2px solid rgba(114,9,183,0.25);
+      color: #7209b7;
+      background: rgba(114,9,183,0.06);
+      margin-bottom: 28px;
+      transition: all 0.2s;
+    }
+    .back-btn:hover { background: rgba(114,9,183,0.13); box-shadow: 0 0 18px rgba(114,9,183,0.15); }
+
+    /* Header */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 30px;
+      animation: fadeDown 0.6s ease both;
+    }
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-14px)} to{opacity:1;transform:translateY(0)} }
+
+    .page-title {
+      font-family: 'Righteous', cursive;
+      font-size: 2rem;
+      background: linear-gradient(90deg, #f72585, #7209b7, #3a86ff, #06d6a0);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradShift 4s ease infinite;
+    }
+    @keyframes gradShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 7px 18px;
+      border-radius: 30px;
+      background: linear-gradient(90deg, #f72585, #7209b7, #3a86ff);
+      background-size: 200%;
+      animation: gradShift 3s ease infinite;
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(114,9,183,0.22);
+    }
+
+    /* Table card — gradient border like index.html */
+    .table-card {
+      border-radius: 24px;
+      padding: 4px;
+      background: linear-gradient(135deg, #f72585, #7209b7, #3a86ff, #4cc9f0, #06d6a0);
+      background-size: 300% 300%;
+      animation: gradShift 5s ease infinite, slideUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s both;
+      box-shadow: 0 12px 50px rgba(114,9,183,0.15), 0 4px 20px rgba(58,134,255,0.12);
+    }
+    @keyframes slideUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+
+    .table-inner {
+      background: #ffffff;
+      border-radius: 21px;
+      overflow: hidden;
+    }
+
+    .table-scroll { overflow-x: auto; }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    thead tr {
+      background: linear-gradient(90deg, rgba(247,37,133,0.06), rgba(114,9,183,0.06), rgba(58,134,255,0.06));
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    th {
+      font-family: 'Righteous', cursive;
+      font-size: 0.68rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 18px 20px;
+      text-align: left;
+      white-space: nowrap;
+    }
+    /* Rainbow column headers */
+    th:nth-child(6n+1) { color: #f72585; }
+    th:nth-child(6n+2) { color: #7209b7; }
+    th:nth-child(6n+3) { color: #3a86ff; }
+    th:nth-child(6n+4) { color: #06d6a0; }
+    th:nth-child(6n+5) { color: #f4a261; }
+    th:nth-child(6n+6) { color: #4cc9f0; }
+
+    tbody tr {
+      border-bottom: 1px solid #f5f5f5;
+      transition: background 0.15s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #faf5ff; }
+    tbody tr:nth-child(even) { background: #fdfaff; }
+    tbody tr:nth-child(even):hover { background: #f5eeff; }
+
+    td {
+      padding: 14px 20px;
+      font-size: 0.875rem;
+      color: #444;
+      white-space: nowrap;
+    }
+    td:first-child { font-weight: 700; color: #1a1a2e; }
+
+    /* Empty state */
+    .empty {
+      text-align: center;
+      padding: 70px 20px;
+      color: #bbb;
+    }
+    .empty .icon { font-size: 2.5rem; display:block; margin-bottom:12px; }
+    .empty p { font-size: 0.9rem; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+<div class="blob blob-4"></div>
+
+<div class="page-wrap">
+
+  <a href="/" class="back-btn">← Back to Search</a>
+
+  <div class="page-header">
+    <div class="page-title">Search Results</div>
+    <div class="badge">Ambition Box</div>
+  </div>
+
+  <div class="table-card">
+    <div class="table-inner">
+      <div class="table-scroll">
+        {% if rows %}
+        <table>
+          <thead>
+            <tr>
+              {% for col in column %}
+                <th>{{ col }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in rows %}
+            <tr>
+              {% for col in column %}
+                <td>{{ i[col] }}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <div class="empty">
+          <p>No results found. Try different filters!</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
