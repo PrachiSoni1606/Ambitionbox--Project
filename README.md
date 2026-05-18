@@ -119,7 +119,7 @@ Through this project, I learned:
 ### Visualization
 ![Visualization](hist.png)
 ![Visualization](scatter.png)
-![Visualization](visulpi.png)
+![Visualization](visulpie.png)
 # Author
 
 **Prachi Soni**
