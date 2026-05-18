@@ -111,10 +111,15 @@ Through this project, I learned:
 ## 📸 Screenshots
 
 ### Home Page
-![Home](images/home.png)
+![Home](home.png)
 
-### Dashboard
-![Dashboard](images/dashboard.png)
+### Table
+![Table](table.png)
+
+### Visualization
+![Visualization](hist.png)
+![Visualization](scatter.png)
+![Visualization](visulpi.png)
 # Author
 
 **Prachi Soni**
